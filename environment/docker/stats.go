@@ -6,7 +6,7 @@ import (
 	"github.com/apex/log"
 	"github.com/docker/docker/api/types"
 	"github.com/pkg/errors"
-	"github.com/pterodactyl/wings/environment"
+	"github.com/avatag-host/claws/environment"
 	"io"
 	"math"
 	"sync/atomic"

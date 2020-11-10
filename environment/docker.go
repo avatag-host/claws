@@ -9,7 +9,7 @@ import (
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/network"
 	"github.com/docker/docker/client"
-	"github.com/pterodactyl/wings/config"
+	"github.com/avatag-host/claws/config"
 )
 
 var _cmu sync.Mutex

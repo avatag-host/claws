@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"github.com/apex/log"
 	"github.com/pkg/errors"
-	"github.com/pterodactyl/wings/api"
+	"github.com/avatag-host/claws/api"
 	"io"
 	"net/http"
 	"os"

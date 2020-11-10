@@ -9,7 +9,7 @@ import (
 	"github.com/apex/log"
 	"github.com/patrickmn/go-cache"
 	"github.com/pkg/sftp"
-	"github.com/pterodactyl/wings/api"
+	"github.com/avatag-host/claws/api"
 	"golang.org/x/crypto/ssh"
 	"io"
 	"io/ioutil"

@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/pterodactyl/wings/config"
+	"github.com/avatag-host/claws/config"
 	"os"
 	"path/filepath"
 )
@@ -18,8 +18,8 @@ func RelocateConfiguration() error {
 	var match string
 	check := []string{
 		config.DefaultLocation,
-		"/var/lib/pterodactyl/config.yml",
-		"/etc/wings/config.yml",
+		"/var/lib/claws/config.yml",
+		"/etc/claws/config.yml",
 	}
 
 	// Loop over all of the configuration paths, and return which one we found, if

@@ -3,7 +3,7 @@ package environment
 import (
 	"fmt"
 	"github.com/docker/go-connections/nat"
-	"github.com/pterodactyl/wings/config"
+	"github.com/avatag-host/claws/config"
 	"strconv"
 )
 

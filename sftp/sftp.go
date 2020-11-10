@@ -3,9 +3,9 @@ package sftp
 import (
 	"github.com/apex/log"
 	"github.com/pkg/errors"
-	"github.com/pterodactyl/wings/api"
-	"github.com/pterodactyl/wings/config"
-	"github.com/pterodactyl/wings/server"
+	"github.com/avatag-host/claws/api"
+	"github.com/avatag-host/claws/config"
+	"github.com/avatag-host/claws/server"
 )
 
 var noMatchingServerError = errors.New("no matching server with that UUID was found")

@@ -3,9 +3,9 @@ package server
 import (
 	"context"
 	"github.com/pkg/errors"
-	"github.com/pterodactyl/wings/config"
-	"github.com/pterodactyl/wings/environment"
-	"github.com/pterodactyl/wings/server/filesystem"
+	"github.com/avatag-host/claws/config"
+	"github.com/avatag-host/claws/environment"
+	"github.com/avatag-host/claws/server/filesystem"
 	"golang.org/x/sync/semaphore"
 	"os"
 	"time"

@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/pterodactyl/wings/environment"
+	"github.com/avatag-host/claws/environment"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -21,12 +21,12 @@ import (
 	"github.com/docker/cli/components/engine/pkg/parsers/operatingsystem"
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/pkg/parsers/kernel"
-	"github.com/pterodactyl/wings/config"
-	"github.com/pterodactyl/wings/system"
+	"github.com/avatag-host/claws/config"
+	"github.com/avatag-host/claws/system"
 	"github.com/spf13/cobra"
 )
 
-const DefaultHastebinUrl = "https://ptero.co"
+const DefaultHastebinUrl = "https://hastebin.com/"
 const DefaultLogLines = 200
 
 var (
@@ -157,7 +157,7 @@ func diagnosticsCmdRun(cmd *cobra.Command, args []string) {
 
 	printHeader(output, "Latest Wings Logs")
 	if diagnosticsArgs.IncludeLogs {
-		p := "/var/log/pterodactyl/wings.log"
+		p := "/var/log/claws/claws.log"
 		if cfg != nil {
 			p = path.Join(cfg.System.LogDirectory, "wings.log")
 		}

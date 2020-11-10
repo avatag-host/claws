@@ -3,7 +3,7 @@ package api
 import (
 	"encoding/json"
 	"github.com/apex/log"
-	"github.com/pterodactyl/wings/parser"
+	"github.com/avatag-host/claws/parser"
 	"regexp"
 	"strings"
 )

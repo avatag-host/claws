@@ -1,4 +1,4 @@
-module github.com/pterodactyl/wings
+module "github.com/avatag-host/claws"
 
 go 1.13
 

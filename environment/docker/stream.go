@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	"github.com/docker/docker/api/types"
 	"github.com/pkg/errors"
-	"github.com/pterodactyl/wings/environment"
+	"github.com/avatag-host/claws/environment"
 	"strconv"
 )
 

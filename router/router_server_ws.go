@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 	ws "github.com/gorilla/websocket"
-	"github.com/pterodactyl/wings/router/websocket"
+	"github.com/avatag-host/claws/router/websocket"
 	"time"
 )
 

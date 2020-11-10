@@ -132,7 +132,7 @@ func (sc *SystemConfiguration) EnableLogRotation() error {
 		return nil
 	}
 
-	if _, err := os.Stat("/etc/logrotate.d/wings"); err != nil && !os.IsNotExist(err) {
+	if _, err := os.Stat("/etc/logrotate.d/claws"); err != nil && !os.IsNotExist(err) {
 		return errors.WithStack(err)
 	} else if err == nil {
 		return nil
@@ -142,7 +142,7 @@ func (sc *SystemConfiguration) EnableLogRotation() error {
 	// If we've gotten to this point it means the logrotate directory exists on the system
 	// but there is not a file for wings already. In that case, let us write a new file to
 	// it so files can be rotated easily.
-	f, err := os.Create("/etc/logrotate.d/wings")
+	f, err := os.Create("/etc/logrotate.d/claws")
 	if err != nil {
 		return errors.WithStack(err)
 	}

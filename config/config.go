@@ -16,7 +16,7 @@ import (
 	"sync"
 )
 
-const DefaultLocation = "/etc/pterodactyl/config.yml"
+const DefaultLocation = "/etc/claws/config.yml"
 
 type Configuration struct {
 	sync.RWMutex `json:"-" yaml:"-"`

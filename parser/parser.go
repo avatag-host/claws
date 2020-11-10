@@ -9,7 +9,7 @@ import (
 	"github.com/icza/dyno"
 	"github.com/magiconair/properties"
 	"github.com/pkg/errors"
-	"github.com/pterodactyl/wings/config"
+	"github.com/avatag-host/claws/config"
 	"gopkg.in/ini.v1"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"

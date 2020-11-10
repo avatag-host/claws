@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"github.com/apex/log"
 	"github.com/pkg/errors"
-	"github.com/pterodactyl/wings/config"
-	"github.com/pterodactyl/wings/system"
+	"github.com/avatag-host/claws/config"
+	"github.com/avatag-host/claws/system"
 	"io"
 	"io/ioutil"
 	"net/http"
@@ -30,7 +30,7 @@ type D map[string]interface{}
 // Same concept as D, but a map of strings, used for querying GET requests.
 type Q map[string]string
 
-// A custom API requester struct for Wings.
+// A custom API requester struct for Claws.
 type Request struct{}
 
 // A custom response type that allows for commonly used error handling and response
@@ -65,15 +65,15 @@ func (r *Request) Endpoint(endpoint string) string {
 }
 
 // Makes a HTTP request to the given endpoint, attaching the necessary request headers from
-// Wings to ensure that the request is properly handled by the Panel.
+// Claws to ensure that the request is properly handled by the Panel.
 func (r *Request) Make(method, url string, body io.Reader, opts ...func(r *http.Request)) (*Response, error) {
 	req, err := http.NewRequest(method, url, body)
 	if err != nil {
 		return nil, errors.WithStack(err)
 	}
 
-	req.Header.Set("User-Agent", fmt.Sprintf("Pterodactyl Wings/v%s (id:%s)", system.Version, config.Get().AuthenticationTokenId))
-	req.Header.Set("Accept", "application/vnd.pterodactyl.v1+json")
+	req.Header.Set("User-Agent", fmt.Sprintf("Panther Claws/v%s (id:%s)", system.Version, config.Get().AuthenticationTokenId))
+	req.Header.Set("Accept", "application/vnd.panther.v1+json")
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", fmt.Sprintf("Bearer %s.%s", config.Get().AuthenticationTokenId, config.Get().AuthenticationToken))
 

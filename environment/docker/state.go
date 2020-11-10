@@ -3,7 +3,7 @@ package docker
 import (
 	"fmt"
 	"github.com/pkg/errors"
-	"github.com/pterodactyl/wings/environment"
+	"github.com/avatag-host/claws/environment"
 )
 
 // Returns the current environment state.

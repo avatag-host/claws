@@ -5,6 +5,8 @@
 *.dylib
 .idea/*
 
+/src/pkg
+
 # Test binary, build with `go test -c`
 *.test
 
@@ -33,8 +35,8 @@
 /coverage.out
 
 # The built executable
-wings
-wings.exe
+claws
+claws.exe
 
 # IDE/Editor files (VS Code)
 /.vscode

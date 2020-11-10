@@ -5,9 +5,9 @@ import (
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/client"
 	"github.com/pkg/errors"
-	"github.com/pterodactyl/wings/api"
-	"github.com/pterodactyl/wings/environment"
-	"github.com/pterodactyl/wings/events"
+	"github.com/avatag-host/claws/api"
+	"github.com/avatag-host/claws/environment"
+	"github.com/avatag-host/claws/events"
 	"io"
 	"sync"
 )

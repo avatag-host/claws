@@ -1,7 +1,7 @@
 package server
 
 import (
-	"github.com/pterodactyl/wings/environment"
+	"github.com/avatag-host/claws/environment"
 	"sync"
 )
 

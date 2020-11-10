@@ -16,17 +16,17 @@ import (
 
 	"github.com/apex/log"
 	"github.com/mitchellh/colorstring"
-	"github.com/pterodactyl/wings/loggers/cli"
+	"github.com/avatag-host/claws/loggers/cli"
 	"golang.org/x/crypto/acme/autocert"
 
 	"github.com/pkg/errors"
 	"github.com/pkg/profile"
-	"github.com/pterodactyl/wings/config"
-	"github.com/pterodactyl/wings/environment"
-	"github.com/pterodactyl/wings/router"
-	"github.com/pterodactyl/wings/server"
-	"github.com/pterodactyl/wings/sftp"
-	"github.com/pterodactyl/wings/system"
+	"github.com/avatag-host/claws/config"
+	"github.com/avatag-host/claws/environment"
+	"github.com/avatag-host/claws/router"
+	"github.com/avatag-host/claws/server"
+	"github.com/avatag-host/claws/sftp"
+	"github.com/avatag-host/claws/system"
 	"github.com/spf13/cobra"
 )
 
@@ -404,8 +404,8 @@ __ [blue][bold]Pterodactyl[reset] _____/___/_______ _______ ______
 Copyright © 2018 - 2020 Dane Everitt & Contributors
 
 Website:  https://pterodactyl.io
- Source:  https://github.com/pterodactyl/wings
-License:  https://github.com/pterodactyl/wings/blob/develop/LICENSE
+ Source:  https://github.com/avatag-host/claws
+License:  https://github.com/avatag-host/claws/blob/develop/LICENSE
 
 This software is made available under the terms of the MIT license.
 The above copyright notice and this permission notice shall be included
@@ -423,7 +423,7 @@ Please ensure you have copied your instance configuration file into
 the default location, or have provided the --config flag to use a
 custom location.
 
-Default Location: /etc/pterodactyl/config.yml
+Default Location: /etc/claws/config.yml
 
 [yellow]This is not a bug with this software. Please do not make a bug report
 for this issue, it will be closed.[reset]

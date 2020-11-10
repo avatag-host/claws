@@ -3,8 +3,8 @@ package server
 import (
 	"fmt"
 	"github.com/pkg/errors"
-	"github.com/pterodactyl/wings/config"
-	"github.com/pterodactyl/wings/environment"
+	"github.com/avatag-host/claws/config"
+	"github.com/avatag-host/claws/environment"
 	"sync"
 	"time"
 )

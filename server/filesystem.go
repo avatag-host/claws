@@ -2,7 +2,7 @@ package server
 
 import (
 	"github.com/pkg/errors"
-	"github.com/pterodactyl/wings/server/filesystem"
+	"github.com/avatag-host/claws/server/filesystem"
 	"os"
 )
 

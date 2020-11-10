@@ -4,8 +4,8 @@ import (
 	"bufio"
 	"github.com/apex/log"
 	"github.com/pkg/errors"
-	"github.com/pterodactyl/wings/api"
-	"github.com/pterodactyl/wings/server/backup"
+	"github.com/avatag-host/claws/api"
+	"github.com/avatag-host/claws/server/backup"
 	"os"
 	"path"
 )
