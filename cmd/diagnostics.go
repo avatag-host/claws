@@ -12,6 +12,7 @@ import (
 	"net/url"
 	"os/exec"
 	"path"
+	"runtime"
 	"strconv"
 	"strings"
 	"time"
@@ -87,9 +88,9 @@ func diagnosticsCmdRun(cmd *cobra.Command, args []string) {
 	_ = dockerInfo
 
 	output := &strings.Builder{}
-	fmt.Fprintln(output, "Pterodactyl Wings - Diagnostics Report")
+	fmt.Fprintln(output, "Panther Claws - Diagnostics Report")
 	printHeader(output, "Versions")
-	fmt.Fprintln(output, "         wings:", system.Version)
+	fmt.Fprintln(output, "         claws:", system.Version)
 	if dockerErr == nil {
 		fmt.Fprintln(output, "Docker:", dockerVersion.Version)
 	}
@@ -100,8 +101,14 @@ func diagnosticsCmdRun(cmd *cobra.Command, args []string) {
 		fmt.Fprintln(output, "    OS:", os)
 	}
 
-	printHeader(output, "Wings Configuration")
-	cfg, err := config.ReadConfiguration(config.DefaultLocation)
+	printHeader(output, "Claws Configuration");
+	var err error;
+	var cfg *config.Configuration;
+	if runtime.GOOS == "windows" {
+		cfg, err = config.ReadConfiguration(config.DefaultLocationWindows)
+	} else {
+		cfg, err = config.ReadConfiguration(config.DefaultLocationLinux)
+	}
 	if cfg != nil {
 		fmt.Fprintln(output, "    Panel Location:", redact(cfg.PanelLocation))
 		fmt.Fprintln(output, "")
@@ -109,9 +116,6 @@ func diagnosticsCmdRun(cmd *cobra.Command, args []string) {
 		fmt.Fprintln(output, "        SSL Enabled:", cfg.Api.Ssl.Enabled)
 		fmt.Fprintln(output, "    SSL Certificate:", redact(cfg.Api.Ssl.CertificateFile))
 		fmt.Fprintln(output, "            SSL Key:", redact(cfg.Api.Ssl.KeyFile))
-		fmt.Fprintln(output, "")
-		fmt.Fprintln(output, "        SFTP Server:", redact(cfg.System.Sftp.Address), ":", cfg.System.Sftp.Port)
-		fmt.Fprintln(output, "     SFTP Read-Only:", cfg.System.Sftp.ReadOnly)
 		fmt.Fprintln(output, "")
 		fmt.Fprintln(output, "     Root Directory:", cfg.System.RootDirectory)
 		fmt.Fprintln(output, "     Logs Directory:", cfg.System.LogDirectory)
@@ -155,7 +159,7 @@ func diagnosticsCmdRun(cmd *cobra.Command, args []string) {
 		fmt.Fprint(output, "Couldn't list containers: ", err)
 	}
 
-	printHeader(output, "Latest Wings Logs")
+	printHeader(output, "Latest Claws Logs")
 	if diagnosticsArgs.IncludeLogs {
 		p := "/var/log/claws/claws.log"
 		if cfg != nil {

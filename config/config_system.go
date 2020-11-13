@@ -18,22 +18,22 @@ import (
 // Defines basic system configuration settings.
 type SystemConfiguration struct {
 	// The root directory where all of the pterodactyl data is stored at.
-	RootDirectory string `default:"/var/lib/pterodactyl" yaml:"root_directory"`
+	RootDirectory string `default:"/var/lib/panther" yaml:"root_directory"`
 
 	// Directory where logs for server installations and other wings events are logged.
-	LogDirectory string `default:"/var/log/pterodactyl" yaml:"log_directory"`
+	LogDirectory string `default:"/var/log/panther" yaml:"log_directory"`
 
 	// Directory where the server data is stored at.
-	Data string `default:"/var/lib/pterodactyl/volumes" yaml:"data"`
+	Data string `default:"/var/lib/panther/volumes" yaml:"data"`
 
 	// Directory where server archives for transferring will be stored.
-	ArchiveDirectory string `default:"/var/lib/pterodactyl/archives" yaml:"archive_directory"`
+	ArchiveDirectory string `default:"/var/lib/panther/archives" yaml:"archive_directory"`
 
 	// Directory where local backups will be stored on the machine.
-	BackupDirectory string `default:"/var/lib/pterodactyl/backups" yaml:"backup_directory"`
+	BackupDirectory string `default:"/var/lib/panther/backups" yaml:"backup_directory"`
 
 	// The user that should own all of the server files, and be used for containers.
-	Username string `default:"pterodactyl" yaml:"username"`
+	Username string `default:"panther" yaml:"username"`
 
 	// The timezone for this Wings instance. This is detected by Wings automatically if possible,
 	// and falls back to UTC if not able to be detected. If you need to set this manually, that
@@ -69,8 +69,6 @@ type SystemConfiguration struct {
 	// If set to false Wings will not attempt to write a log rotate configuration to the disk
 	// when it boots and one is not detected.
 	EnableLogRotate bool `default:"true" yaml:"enable_log_rotate"`
-
-	Sftp SftpConfiguration `yaml:"sftp"`
 }
 
 // Ensures that all of the system directories exist on the system. These directories are

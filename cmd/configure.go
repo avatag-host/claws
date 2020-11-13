@@ -40,7 +40,7 @@ func init() {
 	configureCmd.PersistentFlags().StringVarP(&configureArgs.PanelURL, "panel-url", "p", "", "The base URL for this daemon's panel")
 	configureCmd.PersistentFlags().StringVarP(&configureArgs.Token, "token", "t", "", "The API key to use for fetching node information")
 	configureCmd.PersistentFlags().StringVarP(&configureArgs.Node, "node", "n", "", "The ID of the node which will be connected to this daemon")
-	configureCmd.PersistentFlags().StringVarP(&configureArgs.ConfigPath, "config-path", "c", config.DefaultLocation, "The path where the configuration file should be made")
+	configureCmd.PersistentFlags().StringVarP(&configureArgs.ConfigPath, "config-path", "c", config.DefaultLocationLinux, "The path where the configuration file should be made")
 	configureCmd.PersistentFlags().BoolVar(&configureArgs.Override, "override", false, "Set to true to override an existing configuration for this node")
 	configureCmd.PersistentFlags().BoolVar(&configureArgs.AllowInsecure, "allow-insecure", false, "Set to true to disable certificate checking")
 }
@@ -175,7 +175,7 @@ func getRequest() (*http.Request, error) {
 		return nil, err
 	}
 
-	r.Header.Set("Accept", "application/vnd.pterodactyl.v1+json")
+	r.Header.Set("Accept", "application/vnd.claws.v1+json")
 	r.Header.Set("Content-Type", "application/json")
 	r.Header.Set("Authorization", fmt.Sprintf("Bearer %s", configureArgs.Token))
 

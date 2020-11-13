@@ -16,7 +16,9 @@ import (
 	"sync"
 )
 
-const DefaultLocation = "/etc/claws/config.yml"
+const DefaultLocationLinux = "/etc/claws/config.yml"
+
+const DefaultLocationWindows = `C:\Claws\config.yml`
 
 type Configuration struct {
 	sync.RWMutex `json:"-" yaml:"-"`
@@ -70,16 +72,6 @@ type Configuration struct {
 	// The Panel URL is automatically allowed, this is only needed for adding
 	// additional origins.
 	AllowedOrigins []string `json:"allowed_origins" yaml:"allowed_origins"`
-}
-
-// Defines the configuration of the internal SFTP server.
-type SftpConfiguration struct {
-	// The bind address of the SFTP server.
-	Address string `default:"0.0.0.0" json:"bind_address" yaml:"bind_address"`
-	// The bind port of the SFTP server.
-	Port int `default:"2022" json:"bind_port" yaml:"bind_port"`
-	// If set to true, no write actions will be allowed on the SFTP server.
-	ReadOnly bool `default:"false" yaml:"read_only"`
 }
 
 // Defines the configuration for the internal API that is exposed by the

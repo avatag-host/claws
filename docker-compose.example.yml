@@ -15,9 +15,9 @@ services:
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
       - "/var/lib/docker/containers/:/var/lib/docker/containers/"
-      - "/etc/pterodactyl/:/etc/pterodactyl/"
-      - "/var/lib/pterodactyl/:/var/lib/pterodactyl/"
-      - "/var/log/pterodactyl/:/var/log/pterodactyl/"
+      - "/etc/claws/:/etc/claws/"
+      - "/var/lib/claws/:/var/lib/claws/"
+      - "/var/log/claws/:/var/log/claws/"
       - "/tmp/pterodactyl/:/tmp/pterodactyl/"
       ## you may need /srv/daemon-data if you are upgrading from an old daemon
       ## - "/srv/daemon-data/:/srv/daemon-data/"

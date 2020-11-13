@@ -4,33 +4,32 @@ import (
 	"crypto/tls"
 	"fmt"
 	"github.com/NYTimes/logrotate"
+	"github.com/apex/log"
 	"github.com/apex/log/handlers/multi"
+	"github.com/avatag-host/claws/loggers/cli"
 	"github.com/docker/docker/client"
 	"github.com/gammazero/workerpool"
+	"github.com/mitchellh/colorstring"
 	"golang.org/x/crypto/acme"
+	"golang.org/x/crypto/acme/autocert"
 	"net/http"
 	"os"
 	"path"
 	"path/filepath"
-	"strings"
+	"runtime"
 
-	"github.com/apex/log"
-	"github.com/mitchellh/colorstring"
-	"github.com/avatag-host/claws/loggers/cli"
-	"golang.org/x/crypto/acme/autocert"
-
-	"github.com/pkg/errors"
-	"github.com/pkg/profile"
 	"github.com/avatag-host/claws/config"
 	"github.com/avatag-host/claws/environment"
 	"github.com/avatag-host/claws/router"
 	"github.com/avatag-host/claws/server"
-	"github.com/avatag-host/claws/sftp"
 	"github.com/avatag-host/claws/system"
+	"github.com/pkg/errors"
+	"github.com/pkg/profile"
 	"github.com/spf13/cobra"
 )
 
-var configPath = config.DefaultLocation
+var configPath string;
+
 var debug = false
 var shouldRunProfiler = false
 var useAutomaticTls = false
@@ -38,8 +37,8 @@ var tlsHostname = ""
 var showVersion = false
 
 var root = &cobra.Command{
-	Use:   "wings",
-	Short: "The wings of the pterodactyl game management panel",
+	Use:   "claws",
+	Short: "The claws of the panther game management panel",
 	Long:  ``,
 	PreRun: func(cmd *cobra.Command, args []string) {
 		if useAutomaticTls && len(tlsHostname) == 0 {
@@ -51,8 +50,14 @@ var root = &cobra.Command{
 }
 
 func init() {
+	if runtime.GOOS == "windows" {
+		configPath = config.DefaultLocationWindows
+		root.PersistentFlags().StringVar(&configPath, "config", config.DefaultLocationWindows, "set the location for the configuration file")
+	} else {
+		configPath = config.DefaultLocationLinux;
+		root.PersistentFlags().StringVar(&configPath, "config", config.DefaultLocationLinux, "set the location for the configuration file")
+	}
 	root.PersistentFlags().BoolVar(&showVersion, "version", false, "show the version and exit")
-	root.PersistentFlags().StringVar(&configPath, "config", config.DefaultLocation, "set the location for the configuration file")
 	root.PersistentFlags().BoolVar(&debug, "debug", false, "pass in order to run wings in debug mode")
 	root.PersistentFlags().BoolVar(&shouldRunProfiler, "profile", false, "pass in order to profile wings")
 	root.PersistentFlags().BoolVar(&useAutomaticTls, "auto-tls", false, "pass in order to have wings generate and manage it's own SSL certificates using Let's Encrypt")
@@ -64,23 +69,13 @@ func init() {
 
 // Get the configuration path based on the arguments provided.
 func readConfiguration() (*config.Configuration, error) {
-	var p = configPath
-	if !strings.HasPrefix(p, "/") {
-		d, err := os.Getwd()
-		if err != nil {
-			return nil, err
-		}
-
-		p = path.Clean(path.Join(d, configPath))
-	}
-
-	if s, err := os.Stat(p); err != nil {
+	if s, err := os.Stat(configPath); err != nil {
 		return nil, errors.WithStack(err)
 	} else if s.IsDir() {
 		return nil, errors.New("cannot use directory as configuration file path")
 	}
 
-	return config.ReadConfiguration(p)
+	return config.ReadConfiguration(configPath)
 }
 
 func rootCmdRun(*cobra.Command, []string) {
@@ -95,7 +90,7 @@ func rootCmdRun(*cobra.Command, []string) {
 
 	// Only attempt configuration file relocation if a custom location has not
 	// been specified in the command startup.
-	if configPath == config.DefaultLocation {
+	if configPath == config.DefaultLocationLinux || configPath == config.DefaultLocationWindows {
 		if err := RelocateConfiguration(); err != nil {
 			if os.IsNotExist(err) {
 				exitWithConfigurationNotice()
@@ -104,7 +99,6 @@ func rootCmdRun(*cobra.Command, []string) {
 			panic(err)
 		}
 	}
-
 	c, err := readConfiguration()
 	if err != nil {
 		panic(err)
@@ -140,7 +134,7 @@ func rootCmdRun(*cobra.Command, []string) {
 	log.WithField("timezone", c.System.Timezone).Info("configured wings with system timezone")
 
 	if err := c.System.ConfigureDirectories(); err != nil {
-		log.WithField("error", err).Fatal("failed to configure system directories for pterodactyl")
+		log.WithField("error", err).Fatal("failed to configure system directories for panther")
 		return
 	}
 
@@ -149,9 +143,9 @@ func rootCmdRun(*cobra.Command, []string) {
 		return
 	}
 
-	log.WithField("username", c.System.Username).Info("checking for pterodactyl system user")
+	log.WithField("username", c.System.Username).Info("checking for panther system user")
 	if su, err := c.EnsurePterodactylUser(); err != nil {
-		log.WithField("error", err).Fatal("failed to create pterodactyl system user")
+		log.WithField("error", err).Fatal("failed to create panther system user")
 		return
 	} else {
 		log.WithFields(log.Fields{
@@ -246,11 +240,6 @@ func rootCmdRun(*cobra.Command, []string) {
 	// Wait until all of the servers are ready to go before we fire up the SFTP and HTTP servers.
 	pool.StopWait()
 
-	// Initialize the SFTP server.
-	if err := sftp.Initialize(c.System); err != nil {
-		log.WithError(err).Fatal("failed to initialize the sftp server")
-		return
-	}
 
 	// Ensure the archive directory exists.
 	if err := os.MkdirAll(c.System.ArchiveDirectory, 0755); err != nil {
@@ -395,7 +384,7 @@ func configureLogging(logDir string, debug bool) error {
 func printLogo() {
 	fmt.Printf(colorstring.Color(`
                      ____
-__ [blue][bold]Pterodactyl[reset] _____/___/_______ _______ ______
+__ [blue][bold]Panther[reset] _____/___/_______ _______ ______
 \_____\    \/\/    /   /       /  __   /   ___/
    \___\          /   /   /   /  /_/  /___   /
         \___/\___/___/___/___/___    /______/
@@ -403,7 +392,6 @@ __ [blue][bold]Pterodactyl[reset] _____/___/_______ _______ ______
 
 Copyright © 2018 - 2020 Dane Everitt & Contributors
 
-Website:  https://pterodactyl.io
  Source:  https://github.com/avatag-host/claws
 License:  https://github.com/avatag-host/claws/blob/develop/LICENSE
 
@@ -413,17 +401,23 @@ in all copies or substantial portions of the Software.%s`), system.Version, "\n\
 }
 
 func exitWithConfigurationNotice() {
+	var defaultLocation string;
+	if runtime.GOOS == "windows" {
+		defaultLocation = `C:\Claws\config.yml`;
+	} else {
+		defaultLocation = `/etc/claws/config.yml`;
+	}
 	fmt.Print(colorstring.Color(`
 [_red_][white][bold]Error: Configuration File Not Found[reset]
 
-Wings was not able to locate your configuration file, and therefore is not
+CLaws was not able to locate your configuration file, and therefore is not
 able to complete its boot process.
 
 Please ensure you have copied your instance configuration file into
 the default location, or have provided the --config flag to use a
 custom location.
 
-Default Location: /etc/claws/config.yml
+Default Location: `+defaultLocation+`
 
 [yellow]This is not a bug with this software. Please do not make a bug report
 for this issue, it will be closed.[reset]

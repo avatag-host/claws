@@ -1,5 +1,5 @@
 # ----------------------------------
-# Pterodactyl Panel Dockerfile
+# Panther Panel Dockerfile
 # ----------------------------------
 
 FROM golang:1.15-alpine
@@ -10,5 +10,5 @@ RUN apk add --no-cache upx \
  && upx --brute wings
 
 FROM alpine:latest
-COPY --from=0 /go/wings/wings /usr/bin/
-CMD ["wings","--config", "/etc/claws/config.yml"]
+COPY --from=0 /go/claws/claws /usr/bin/
+CMD ["claws","--config", "/etc/claws/config.yml"]

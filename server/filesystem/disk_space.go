@@ -2,11 +2,10 @@ package filesystem
 
 import (
 	"github.com/apex/log"
-	"github.com/karrick/godirwalk"
-	"github.com/pkg/errors"
+	"os"
+	"path/filepath"
 	"sync"
 	"sync/atomic"
-	"syscall"
 	"time"
 )
 
@@ -151,40 +150,17 @@ func (fs *Filesystem) updateCachedDiskUsage() (int64, error) {
 // through all of the folders. Returns the size in bytes. This can be a fairly taxing operation
 // on locations with tons of files, so it is recommended that you cache the output.
 func (fs *Filesystem) DirectorySize(dir string) (int64, error) {
-	d, err := fs.SafePath(dir)
-	if err != nil {
-		return 0, errors.WithStack(err)
-	}
-
 	var size int64
-	var st syscall.Stat_t
-
-	err = godirwalk.Walk(d, &godirwalk.Options{
-		Unsorted: true,
-		Callback: func(p string, e *godirwalk.Dirent) error {
-			// If this is a symlink then resolve the final destination of it before trying to continue walking
-			// over its contents. If it resolves outside the server data directory just skip everything else for
-			// it. Otherwise, allow it to continue.
-			if e.IsSymlink() {
-				if _, err := fs.SafePath(p); err != nil {
-					if errors.Is(err, ErrBadPathResolution) {
-						return godirwalk.SkipThis
-					}
-
-					return err
-				}
-			}
-
-			if !e.IsDir() {
-				syscall.Lstat(p, &st)
-				atomic.AddInt64(&size, st.Size)
-			}
-
-			return nil
-		},
+	err := filepath.Walk(dir, func(_ string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		if !info.IsDir() {
+			size += info.Size()
+		}
+		return err
 	})
-
-	return size, errors.WithStack(err)
+	return size, err
 }
 
 // Helper function to determine if a server has space available for a file of a given size.

@@ -23,7 +23,7 @@ func NewFs() (*Filesystem, *rootFs) {
 		},
 	})
 
-	tmpDir, err := ioutil.TempDir(os.TempDir(), "pterodactyl")
+	tmpDir, err := ioutil.TempDir(os.TempDir(), "panther")
 	if err != nil {
 		panic(err)
 	}
